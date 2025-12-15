@@ -1,11 +1,28 @@
 "use client";
 
-import { useContext, createContext, useState, ReactNode } from "react";
+import {
+  useContext,
+  createContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
-const EverythingContext = createContext({});
-// Typescript//
-// createContext (null) JS >>>>>> createContext ({}) TS
-//
+// Added: Define the context type
+interface EverythingContextType {
+  activeTab: string;
+  setActiveTab: Dispatch<SetStateAction<string>>;
+  handleImageAnalysisTab: () => void;
+  handleImageCreator: () => void;
+  handleIngredientRecognition: () => void;
+  loading: boolean;
+}
+
+// Changed: Properly type the context
+const EverythingContext = createContext<EverythingContextType | undefined>(
+  undefined
+);
 
 export const useEverythingContext = () => {
   const context = useContext(EverythingContext);
@@ -20,8 +37,8 @@ export const useEverythingContext = () => {
 };
 
 export const EverythingProvider = ({ children }: { children: ReactNode }) => {
-  //Typescript// //: { children: ReactNode })//
   const [activeTab, setActiveTab] = useState(`ImageAnalysis`);
+  const [loading, setLoading] = useState(false);
 
   const handleImageAnalysisTab = () => setActiveTab(`ImageAnalysis`);
   const handleImageCreator = () => setActiveTab(`ImageCreator`);

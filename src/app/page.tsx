@@ -8,32 +8,61 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { ImageAnalysis } from "./_features/imageAnalysis";
+import { ImageCreator } from "./_features/imageCreator";
+import { IngredientRecognition } from "./_features/ingredientRecognition";
 
 export default function Home() {
-  const [label, setLabel] = React.useState("personal");
-  return (
-    <div className=" flex flex-col gap-7 items-center ">
-      <Header />
+  const {
+    activeTab,
+    handleImageAnalysisTab,
+    handleImageCreator,
+    handleIngredientRecognition,
+  } = useEverythingContext();
 
-      <div className="flex gap-0 bg-gray-100 rounded-lg p-1">
-        <Button
-          variant="ghost"
-          className="bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
-        >
-          Image analysis
-        </Button>
-        <Button
-          variant="ghost"
-          className="text-gray-400 font-normal hover:bg-transparent"
-        >
-          Ingredient recognition
-        </Button>
-        <Button
-          variant="ghost"
-          className="text-gray-400 font-normal hover:bg-transparent"
-        >
-          Image creator
-        </Button>
+  return (
+    <div className=" flex flex-col gap-6 items-center ">
+      <Header />
+      <div className="w-145 flex flex-col gap-6">
+        {" "}
+        <ButtonGroup className="">
+          <Button
+            variant="ghost"
+            className={`${
+              activeTab === "ImageAnalysis"
+                ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
+                : "text-gray-400 font-normal hover:bg-transparent"
+            }`}
+            onClick={handleImageAnalysisTab}
+          >
+            Image analysis
+          </Button>
+          <Button
+            variant="ghost"
+            className={`${
+              activeTab === "IngredientRecognition"
+                ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
+                : "text-gray-400 font-normal hover:bg-transparent"
+            }`}
+            onClick={handleIngredientRecognition}
+          >
+            Ingredient recognition
+          </Button>
+          <Button
+            variant="ghost"
+            className={`${
+              activeTab === "ImageCreator"
+                ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
+                : "text-gray-400 font-normal hover:bg-transparent"
+            }`}
+            onClick={handleImageCreator}
+          >
+            Image creator
+          </Button>
+        </ButtonGroup>
+        {activeTab === "ImageAnalysis" && <ImageAnalysis />}
+        {activeTab === "ImageCreator" && <ImageCreator />}
+        {activeTab === "IngredientRecognition" && <IngredientRecognition />}
       </div>
     </div>
   );
