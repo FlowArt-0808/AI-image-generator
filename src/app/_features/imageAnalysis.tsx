@@ -3,17 +3,19 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
+// import { useEverythingContext } from "../_provider/everythingProvider";
 
 export const ImageAnalysis = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const { value, textValue, handleTextAreaChange } = useEverythingContext();
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+        setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }

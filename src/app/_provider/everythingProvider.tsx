@@ -4,22 +4,25 @@ import {
   useContext,
   createContext,
   useState,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 
-// Added: Define the context type
-interface EverythingContextType {
+import React from "react";
+
+type EverythingContextType = {
+  ingredientTextarea: string;
   activeTab: string;
+  setTextArea: Dispatch<SetStateAction<string>>;
   setActiveTab: Dispatch<SetStateAction<string>>;
   handleImageAnalysisTab: () => void;
   handleImageCreator: () => void;
   handleIngredientRecognition: () => void;
-  loading: boolean;
-}
+  handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  // loading: boolean;
+};
 
-// Changed: Properly type the context
 const EverythingContext = createContext<EverythingContextType | undefined>(
   undefined
 );
@@ -38,21 +41,30 @@ export const useEverythingContext = () => {
 
 export const EverythingProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState(`ImageAnalysis`);
-  const [loading, setLoading] = useState(false);
+  const [ingredientTextarea, setTextArea] = useState(``);
+  // const [loading, setLoading] = useState(false);
 
   const handleImageAnalysisTab = () => setActiveTab(`ImageAnalysis`);
   const handleImageCreator = () => setActiveTab(`ImageCreator`);
   const handleIngredientRecognition = () =>
     setActiveTab(`IngredientRecognition`);
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setTextArea(value);
+    console.log(value);
+  };
 
   return (
     <EverythingContext.Provider
       value={{
         activeTab,
+        ingredientTextarea,
+        setTextArea,
         setActiveTab,
         handleImageAnalysisTab,
         handleImageCreator,
         handleIngredientRecognition,
+        handleTextAreaChange,
       }}
     >
       {children}
