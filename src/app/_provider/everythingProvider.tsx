@@ -20,7 +20,8 @@ type EverythingContextType = {
   handleImageCreator: () => void;
   handleIngredientRecognition: () => void;
   handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  // loading: boolean;
+  sendIngredientTextToBackend: () => Promise<void>;
+  loading: boolean;
 };
 
 const EverythingContext = createContext<EverythingContextType | undefined>(
@@ -42,7 +43,7 @@ export const useEverythingContext = () => {
 export const EverythingProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState(`ImageAnalysis`);
   const [ingredientTextarea, setTextArea] = useState(``);
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleImageAnalysisTab = () => setActiveTab(`ImageAnalysis`);
   const handleImageCreator = () => setActiveTab(`ImageCreator`);
@@ -52,6 +53,31 @@ export const EverythingProvider = ({ children }: { children: ReactNode }) => {
     const value = e.target.value;
     setTextArea(value);
     console.log(value);
+  };
+
+  const sendIngredientTextToBackend = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "http://localhost:777/authentication/ingredients",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ingredients: ingredientTextarea,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(true);
+    }
   };
 
   return (
@@ -65,6 +91,8 @@ export const EverythingProvider = ({ children }: { children: ReactNode }) => {
         handleImageCreator,
         handleIngredientRecognition,
         handleTextAreaChange,
+        sendIngredientTextToBackend,
+        loading,
       }}
     >
       {children}

@@ -68,6 +68,14 @@ const eslintConfig = defineConfig([
     },
   },
 
+  // Exception for dropdown-menu.tsx
+  {
+    files: ["**/dropdown-menu.tsx"],
+    rules: {
+      "max-lines": "off",
+    },
+  },
+
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
 ]);
 

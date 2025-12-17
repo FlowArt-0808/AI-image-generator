@@ -6,7 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEverythingContext } from "../_provider/everythingProvider";
 
 export const IngredientRecognition = () => {
-  const { ingredientTextarea, handleTextAreaChange } = useEverythingContext();
+  const {
+    ingredientTextarea,
+    handleTextAreaChange,
+    sendIngredientTextToBackend,
+  } = useEverythingContext();
   return (
     <div aria-label="Everything inside it" className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -63,7 +67,10 @@ export const IngredientRecognition = () => {
             value={ingredientTextarea}
             onChange={handleTextAreaChange}
           />
-          <Button className="h-10 w-23.5 py-2 px-4 flex items-center justify-center ml-122 cursor-pointer">
+          <Button
+            onClick={sendIngredientTextToBackend}
+            className="h-10 w-23.5 py-2 px-4 flex items-center justify-center ml-122 cursor-pointer"
+          >
             Generate
           </Button>
         </div>
