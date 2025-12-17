@@ -14,14 +14,18 @@ import React from "react";
 type EverythingContextType = {
   ingredientTextarea: string;
   activeTab: string;
+  generatedImageAnalysisText: string;
+  setGeneratedImageAnalysisText: Dispatch<SetStateAction<string>>;
   setTextArea: Dispatch<SetStateAction<string>>;
   setActiveTab: Dispatch<SetStateAction<string>>;
   handleImageAnalysisTab: () => void;
   handleImageCreator: () => void;
+  handleGenerated: () => void;
   handleIngredientRecognition: () => void;
   handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   sendIngredientTextToBackend: () => Promise<void>;
   loading: boolean;
+  generated: boolean;
 };
 
 const EverythingContext = createContext<EverythingContextType | undefined>(
@@ -44,6 +48,9 @@ export const EverythingProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState(`ImageAnalysis`);
   const [ingredientTextarea, setTextArea] = useState(``);
   const [loading, setLoading] = useState(false);
+  const [generated, setGenerated] = useState(false);
+  const [generatedImageAnalysisText, setGeneratedImageAnalysisText] =
+    useState(`Test Test Test`);
 
   const handleImageAnalysisTab = () => setActiveTab(`ImageAnalysis`);
   const handleImageCreator = () => setActiveTab(`ImageCreator`);
@@ -54,6 +61,8 @@ export const EverythingProvider = ({ children }: { children: ReactNode }) => {
     setTextArea(value);
     console.log(value);
   };
+
+  const handleGenerated = () => setGenerated(true);
 
   const sendIngredientTextToBackend = async () => {
     setLoading(true);
@@ -76,23 +85,31 @@ export const EverythingProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   };
+
+  // const handleGeneratedImageAnalysisText =
 
   return (
     <EverythingContext.Provider
       value={{
+        generatedImageAnalysisText,
         activeTab,
         ingredientTextarea,
+
+        setGeneratedImageAnalysisText,
         setTextArea,
         setActiveTab,
+
         handleImageAnalysisTab,
         handleImageCreator,
         handleIngredientRecognition,
         handleTextAreaChange,
+        handleGenerated,
         sendIngredientTextToBackend,
         loading,
+        generated,
       }}
     >
       {children}

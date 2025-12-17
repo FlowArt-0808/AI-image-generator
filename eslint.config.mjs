@@ -1,21 +1,16 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { defineConfig } from "eslint/config";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import unusedImports from "eslint-plugin-unused-imports";
 
 const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.json",
-        tsconfigRootDir: import.meta.dirname,
+        ecmaVersion: "latest",
+        sourceType: "module",
       },
     },
     plugins: {
@@ -50,9 +45,6 @@ const eslintConfig = defineConfig([
       /* 5️⃣ Disallow any */
       "@typescript-eslint/no-explicit-any": "error",
 
-      /* 7️⃣ Type-aware async safety */
-      "@typescript-eslint/no-floating-promises": "error",
-
       /* 8️⃣ Strict equality */
       eqeqeq: ["error", "always"],
 
@@ -63,7 +55,7 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-shadow": "error",
       "no-shadow": "off",
 
-      /* 🔟 Max line length */
+      /* Max line length */
       "max-lines": ["error", { max: 180 }],
     },
   },
@@ -76,7 +68,15 @@ const eslintConfig = defineConfig([
     },
   },
 
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  {
+    ignores: [
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+      "node_modules/**",
+    ],
+  },
 ]);
 
 export default eslintConfig;

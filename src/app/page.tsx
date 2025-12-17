@@ -7,9 +7,9 @@ import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { ImageAnalysis } from "./_features/imageAnalysis";
-import { ImageCreator } from "./_features/imageCreator";
-import { IngredientRecognition } from "./_features/ingredientRecognition";
+import { ImageAnalysis } from "./_features/(1)imageAnalysis";
+import { ImageCreator } from "./_features/(3)imageCreator";
+import { IngredientRecognition } from "./_features/(2)ingredientRecognition";
 
 export default function Home() {
   const {
