@@ -12,7 +12,11 @@ import FileIcon from "@/components/ui/file-icon";
 
 export const ImageAnalysis = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { generatedImageAnalysisText, loading, generated } = useAIContext();
+  const {
+    generatedImageAnalysisText,
+    imageAnalysisLoading,
+    isImageAnalyzedTextareaGenerated,
+  } = useAIContext();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -102,10 +106,10 @@ export const ImageAnalysis = () => {
           </div>
           <Button
             className={`w-27 h-10 py-2 px-4 flex items-center justify-center ml-122 cursor-pointer opacity-25 hover:opacity-100 ${
-              loading ? "opacity-100" : ""
+              imageAnalysisLoading ? "opacity-100" : ""
             }`}
           >
-            {loading ? "Generating..." : "Generate"}
+            {imageAnalysisLoading ? "Generating..." : "Generate"}
           </Button>
         </div>
       </div>
@@ -128,9 +132,9 @@ export const ImageAnalysis = () => {
             Here is the summary
           </h1>
         </div>
-        {generated ? (
+        {isImageAnalyzedTextareaGenerated ? (
           ``
-        ) : loading ? (
+        ) : imageAnalysisLoading ? (
           <Label className="text-[#71717A] text-[14px] font-normal">
             Please wait, it's generating...
           </Label>
@@ -139,9 +143,9 @@ export const ImageAnalysis = () => {
             First, enter your image to recognize an ingredient
           </Label>
         )}
-        {loading ? (
-          <Textarea value="Loading ingredients..." disabled />
-        ) : generated ? (
+        {imageAnalysisLoading ? (
+          <Textarea value="Loading analyzed image text..." disabled />
+        ) : isImageAnalyzedTextareaGenerated ? (
           <Textarea value={generatedImageAnalysisText} readOnly />
         ) : (
           <Textarea

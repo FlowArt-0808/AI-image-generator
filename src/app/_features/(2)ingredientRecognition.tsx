@@ -10,14 +10,16 @@ import FileIcon from "@/components/ui/file-icon";
 export const IngredientRecognition = () => {
   const {
     ingredientTextarea,
-    handleTextAreaChange,
     sendIngredientTextToBackend,
-    loading,
-    generated,
+    ingredientTextareaLoading,
+    isIngredientTextareaGenerated,
     generatedIngredientRecognitionText,
+    handleTextareaChange,
+    setIngredientTextarea,
+    setGeneratedIngredientRecognitionText,
+    setIsIngredientTextareaGenerated,
   } = useAIContext();
 
-  console.log("loading---1s", loading);
   return (
     <div aria-label="Everything inside it" className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -35,6 +37,11 @@ export const IngredientRecognition = () => {
           <Button
             variant="outline"
             className="cursor-pointer hover:bg-black hover:text-white"
+            onClick={() => (
+              setGeneratedIngredientRecognitionText(``),
+              setIsIngredientTextareaGenerated(false),
+              setIngredientTextarea(``)
+            )}
           >
             <ReloadIcon />
           </Button>
@@ -49,15 +56,15 @@ export const IngredientRecognition = () => {
           
           "
             value={ingredientTextarea}
-            onChange={handleTextAreaChange}
+            onChange={handleTextareaChange}
           />
           <Button
             onClick={sendIngredientTextToBackend}
             className={`w-27 py-2 px-4 flex items-center justify-center ml-118 cursor-pointer opacity-25 hover:opacity-100  ${
-              loading ? "opacity-100" : ""
+              ingredientTextareaLoading ? "opacity-100" : ""
             }  `}
           >
-            {loading ? "Generating..." : "Generate"}
+            {ingredientTextareaLoading ? "Generating..." : "Generate"}
           </Button>
         </div>
       </div>
@@ -68,20 +75,20 @@ export const IngredientRecognition = () => {
             Identified Ingredients
           </h1>
         </div>
-        {loading ? (
+        {ingredientTextareaLoading ? (
           <Label className="text-[#71717A] text-[14px] font-normal">
             Please wait, it's loading
           </Label>
-        ) : generated ? (
+        ) : isIngredientTextareaGenerated ? (
           ``
         ) : (
           <Label className="text-[#71717A] text-[14px] font-normal">
             First, enter your image to recognize an ingredients
           </Label>
         )}
-        {loading ? (
+        {ingredientTextareaLoading ? (
           <Textarea value="Loading ingredients..." disabled />
-        ) : generated ? (
+        ) : isIngredientTextareaGenerated ? (
           <Textarea value={generatedIngredientRecognitionText} readOnly />
         ) : (
           <Textarea

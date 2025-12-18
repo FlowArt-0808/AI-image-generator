@@ -8,7 +8,13 @@ import StarIcon from "@/components/ui/star-icon";
 import ReloadIcon from "@/components/ui/reload-icon";
 import ImageIcon from "@/components/ui/image-icon";
 export const ImageCreator = () => {
-  const { loading, generated, generatedImageAnalysisText } = useAIContext();
+  const {
+    generatedImageAnalysisText,
+    isImageCreated,
+    imageCreatorLoading,
+    imageCreatorTextarea,
+    handleImageCreatorTextareaChange,
+  } = useAIContext();
 
   return (
     <div aria-label="Every content" className="flex flex-col gap-6">
@@ -37,13 +43,18 @@ export const ImageCreator = () => {
           What food image do you want? Describe it briefly.
         </Label>
         <div aria-label="Textrea and button" className="flex flex-col gap-2">
-          <Textarea placeholder="Хоолны тайлбар" className="h-31 py-2 px-4" />
+          <Textarea
+            placeholder="Хоолны тайлбар"
+            className="h-31 py-2 px-4"
+            value={imageCreatorTextarea}
+            onChange={handleImageCreatorTextareaChange}
+          />
           <Button
             className={`w-27 py-2 px-4 flex items-center justify-center ml-118 cursor-pointer opacity-25 hover:opacity-100  ${
-              loading ? "opacity-100" : ""
+              imageCreatorLoading ? "opacity-100" : ""
             }  `}
           >
-            {loading ? "Generating..." : "Generate"}
+            {imageCreatorLoading ? "Generating..." : "Generate"}
           </Button>
         </div>
         <div
@@ -54,9 +65,9 @@ export const ImageCreator = () => {
             <ImageIcon />
             <h1 className="text-[#09090B] text-[20px] font-semibold">Result</h1>
           </div>
-          {generated ? (
+          {isImageCreated ? (
             ``
-          ) : loading ? (
+          ) : imageCreatorLoading ? (
             <Label className="text-[#71717A] text-[14px] font-normal">
               Please wait, it's generating...
             </Label>
@@ -65,9 +76,9 @@ export const ImageCreator = () => {
               First, enter your image to recognize an ingredient
             </Label>
           )}
-          {loading ? (
-            <Textarea value="Loading ingredients..." disabled />
-          ) : generated ? (
+          {imageCreatorLoading ? (
+            <Textarea value="Loading image..." disabled />
+          ) : isImageCreated ? (
             <Textarea value={generatedImageAnalysisText} readOnly />
           ) : (
             <Textarea

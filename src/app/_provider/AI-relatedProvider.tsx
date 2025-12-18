@@ -5,24 +5,35 @@ import {
   createContext,
   useState,
   type ReactNode,
-  type Dispatch,
   type SetStateAction,
+  type Dispatch,
 } from "react";
+
+import axios from "axios";
 
 import React from "react";
 
 type AIContextType = {
+  imageAnalysisLoading: boolean;
+  imageCreatorLoading: boolean;
   generatedIngredientRecognitionText: string; // frontend and backend
   ingredientTextarea: string; //backend
+  imageCreatorTextarea: string;
   generatedImageAnalysisText: string;
+  setIngredientTextarea: Dispatch<SetStateAction<string>>;
+  setImageCreatorTextarea: Dispatch<SetStateAction<string>>;
+  setIsIngredientTextareaGenerated: Dispatch<SetStateAction<boolean>>;
   setGeneratedIngredientRecognitionText: Dispatch<SetStateAction<string>>;
-  setGeneratedImageAnalysisText: Dispatch<SetStateAction<string>>;
-  setTextArea: Dispatch<SetStateAction<string>>; // frontend and backend //Used for ingredient recognition
-  handleGenerated: () => void; //backend and frontend
-  handleTextAreaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; //frontend and backend
+  DummyHandleGenerated: () => void; //backend and frontend
+  handleTextareaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; //frontend and backend
+  handleImageCreatorTextareaChange: (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
   sendIngredientTextToBackend: () => Promise<void>; // backend
-  loading: boolean; //frontend and backend
-  generated: boolean; // frontend and backend
+  ingredientTextareaLoading: boolean; //frontend and backend
+  isImageAnalyzedTextareaGenerated: boolean;
+  isIngredientTextareaGenerated: boolean; // frontend and backend
+  isImageCreated: boolean;
 };
 
 const AIContext = createContext<AIContextType | undefined>(undefined);
@@ -38,54 +49,70 @@ export const useAIContext = () => {
 };
 
 export const AIProvider = ({ children }: { children: ReactNode }) => {
-  const [ingredientTextarea, setTextArea] = useState(``);
-  const [loading, setLoading] = useState(false);
-  const [generated, setGenerated] = useState(false);
+  const [ingredientTextarea, setIngredientTextarea] = useState(``);
+  const [imageCreatorTextarea, setImageCreatorTextarea] = useState(``);
+  const [ingredientTextareaLoading, setIngredientTextareaLoading] =
+    useState(false);
+  const [imageAnalysisLoading, setImageAnalysisLoading] = useState(false);
+  const [imageCreatorLoading, setImageCreatorLoading] = useState(false);
+  const [
+    isImageAnalyzedTextareaGenerated,
+    setIsImageAnalyzedTextareaGenerated,
+  ] = useState(false);
+  const [isIngredientTextareaGenerated, setIsIngredientTextareaGenerated] =
+    useState(false);
+  const [isImageCreated, setIsImageCreated] = useState(false);
   const [generatedImageAnalysisText, setGeneratedImageAnalysisText] =
-    useState(``);
+    useState(`Test Test Test`);
   const [
     generatedIngredientRecognitionText,
     setGeneratedIngredientRecognitionText,
   ] = useState(``);
 
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleImageCreatorTextareaChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const value = e.target.value;
-    setTextArea(value);
+    setImageCreatorTextarea(value);
     console.log(value);
   };
 
-  const handleGenerated = () => setGenerated(true);
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    setIngredientTextarea(value);
+  };
+  const DummyHandleGenerated = () => (
+    setIsIngredientTextareaGenerated(false),
+    setIsImageAnalyzedTextareaGenerated(false),
+    setIsImageCreated(false),
+    setGeneratedImageAnalysisText(`Test Test Test`),
+    setImageAnalysisLoading(false),
+    setImageCreatorLoading(false)
+  );
 
   const sendIngredientTextToBackend = async () => {
-    setLoading(true);
-    setGenerated(false);
+    setIngredientTextareaLoading(true);
+    setIsIngredientTextareaGenerated(false);
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "http://localhost:777/authentication/ingredients",
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: ingredientTextarea,
-          }),
+          contents: ingredientTextarea,
         }
       );
 
-      const data = await response.json();
-      if (data.success) {
-        console.log("Success:", data);
-        setGenerated(true);
-        setGeneratedIngredientRecognitionText(data.message);
-        return data.message;
+      if (response.data.success) {
+        console.log("Success:", response.data);
+        setIsIngredientTextareaGenerated(true);
+        setGeneratedIngredientRecognitionText(response.data.message);
+        return response.data.message;
       } else {
-        throw new Error(data.message);
+        throw new Error(response.data.message);
       }
     } catch (error) {
       console.error("Error:", error);
     } finally {
-      setLoading(false);
+      setIngredientTextareaLoading(false);
     }
   };
 
@@ -95,14 +122,21 @@ export const AIProvider = ({ children }: { children: ReactNode }) => {
         generatedImageAnalysisText,
         generatedIngredientRecognitionText,
         ingredientTextarea,
-        setGeneratedImageAnalysisText,
-        setGeneratedIngredientRecognitionText,
-        setTextArea,
-        handleTextAreaChange,
-        handleGenerated,
+        imageCreatorTextarea,
+        handleTextareaChange,
+        handleImageCreatorTextareaChange,
+        DummyHandleGenerated,
+        setIngredientTextarea,
+        setImageCreatorTextarea,
         sendIngredientTextToBackend,
-        loading,
-        generated,
+        setIsIngredientTextareaGenerated,
+        setGeneratedIngredientRecognitionText,
+        imageAnalysisLoading,
+        ingredientTextareaLoading,
+        imageCreatorLoading,
+        isImageAnalyzedTextareaGenerated,
+        isIngredientTextareaGenerated,
+        isImageCreated,
       }}
     >
       {children}
