@@ -9,11 +9,13 @@ import ReloadIcon from "@/components/ui/reload-icon";
 import ImageIcon from "@/components/ui/image-icon";
 export const ImageCreator = () => {
   const {
-    generatedImageAnalysisText,
+    generatedImageAnalysisTextarea,
     isImageCreated,
     imageCreatorLoading,
     imageCreatorTextarea,
     handleImageCreatorTextareaChange,
+    setImageCreatorTextarea,
+    setIsImageCreated,
   } = useAIContext();
 
   return (
@@ -32,6 +34,9 @@ export const ImageCreator = () => {
           <Button
             variant="outline"
             className="cursor-pointer hover:bg-black hover:text-white"
+            onClick={() => (
+              setImageCreatorTextarea(``), setIsImageCreated(false)
+            )}
           >
             <ReloadIcon />
           </Button>
@@ -79,11 +84,11 @@ export const ImageCreator = () => {
           {imageCreatorLoading ? (
             <Textarea value="Loading image..." disabled />
           ) : isImageCreated ? (
-            <Textarea value={generatedImageAnalysisText} readOnly />
+            <Textarea value={generatedImageAnalysisTextarea} readOnly />
           ) : (
             <Textarea
               value=""
-              placeholder="Results will appear here..."
+              placeholder="Yo, your generated shit will show up here..."
               readOnly
             />
           )}

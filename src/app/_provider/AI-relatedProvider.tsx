@@ -19,10 +19,13 @@ type AIContextType = {
   generatedIngredientRecognitionText: string; // frontend and backend
   ingredientTextarea: string; //backend
   imageCreatorTextarea: string;
-  generatedImageAnalysisText: string;
+  generatedImageAnalysisTextarea: string;
+  setIsImageCreated: Dispatch<SetStateAction<boolean>>;
   setIngredientTextarea: Dispatch<SetStateAction<string>>;
   setImageCreatorTextarea: Dispatch<SetStateAction<string>>;
+  setIsImageAnalyzedTextareaGenerated: Dispatch<SetStateAction<boolean>>;
   setIsIngredientTextareaGenerated: Dispatch<SetStateAction<boolean>>;
+  setGeneratedImageAnalysisTextarea: Dispatch<SetStateAction<string>>;
   setGeneratedIngredientRecognitionText: Dispatch<SetStateAction<string>>;
   DummyHandleGenerated: () => void; //backend and frontend
   handleTextareaChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; //frontend and backend
@@ -62,7 +65,7 @@ export const AIProvider = ({ children }: { children: ReactNode }) => {
   const [isIngredientTextareaGenerated, setIsIngredientTextareaGenerated] =
     useState(false);
   const [isImageCreated, setIsImageCreated] = useState(false);
-  const [generatedImageAnalysisText, setGeneratedImageAnalysisText] =
+  const [generatedImageAnalysisTextarea, setGeneratedImageAnalysisTextarea] =
     useState(`Test Test Test`);
   const [
     generatedIngredientRecognitionText,
@@ -85,7 +88,7 @@ export const AIProvider = ({ children }: { children: ReactNode }) => {
     setIsIngredientTextareaGenerated(false),
     setIsImageAnalyzedTextareaGenerated(false),
     setIsImageCreated(false),
-    setGeneratedImageAnalysisText(`Test Test Test`),
+    setGeneratedImageAnalysisTextarea(`Test Test Test`),
     setImageAnalysisLoading(false),
     setImageCreatorLoading(false)
   );
@@ -119,7 +122,7 @@ export const AIProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AIContext.Provider
       value={{
-        generatedImageAnalysisText,
+        generatedImageAnalysisTextarea,
         generatedIngredientRecognitionText,
         ingredientTextarea,
         imageCreatorTextarea,
@@ -127,7 +130,10 @@ export const AIProvider = ({ children }: { children: ReactNode }) => {
         handleImageCreatorTextareaChange,
         DummyHandleGenerated,
         setIngredientTextarea,
+        setGeneratedImageAnalysisTextarea,
+        setIsImageCreated,
         setImageCreatorTextarea,
+        setIsImageAnalyzedTextareaGenerated,
         sendIngredientTextToBackend,
         setIsIngredientTextareaGenerated,
         setGeneratedIngredientRecognitionText,

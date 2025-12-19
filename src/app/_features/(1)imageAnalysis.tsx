@@ -13,9 +13,11 @@ import FileIcon from "@/components/ui/file-icon";
 export const ImageAnalysis = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const {
-    generatedImageAnalysisText,
+    generatedImageAnalysisTextarea,
     imageAnalysisLoading,
     isImageAnalyzedTextareaGenerated,
+    setGeneratedImageAnalysisTextarea,
+    setIsImageAnalyzedTextareaGenerated,
   } = useAIContext();
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +51,10 @@ export const ImageAnalysis = () => {
           <Button
             variant="outline"
             className="cursor-pointer hover:bg-black hover:text-white "
+            onClick={() => (
+              setGeneratedImageAnalysisTextarea(``),
+              setIsImageAnalyzedTextareaGenerated(false)
+            )}
           >
             <ReloadIcon />
           </Button>
@@ -146,11 +152,11 @@ export const ImageAnalysis = () => {
         {imageAnalysisLoading ? (
           <Textarea value="Loading analyzed image text..." disabled />
         ) : isImageAnalyzedTextareaGenerated ? (
-          <Textarea value={generatedImageAnalysisText} readOnly />
+          <Textarea value={generatedImageAnalysisTextarea} readOnly />
         ) : (
           <Textarea
             value=""
-            placeholder="Results will appear here..."
+            placeholder="Yo, your generated shit will show up here..."
             readOnly
           />
         )}

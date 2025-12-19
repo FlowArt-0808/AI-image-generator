@@ -93,7 +93,7 @@ export const IngredientRecognition = () => {
         ) : (
           <Textarea
             value=""
-            placeholder="Results will appear here..."
+            placeholder="Yo, your generated shit will show up here..."
             readOnly
           />
         )}
