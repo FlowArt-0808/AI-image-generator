@@ -66,6 +66,7 @@ export default function Home() {
           {activeTab === "IngredientRecognition" && <IngredientRecognition />}
         </div>{" "}
       </div>
+
       <Chatbot />
     </div>
   );

@@ -1,13 +1,22 @@
 "use client";
 
-import { useContext, createContext, useState, type ReactNode } from "react";
+import {
+  useContext,
+  createContext,
+  useState,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 type FrontendContextType = {
   activeTab: string;
-
-  handleImageAnalysisTab: () => void; //frontend
-  handleImageCreator: () => void; //frontend
-  handleIngredientRecognition: () => void; //frontend
+  chatbotTab: boolean;
+  setChatbotTab: Dispatch<SetStateAction<boolean>>;
+  handleChatbotClose: () => void;
+  handleImageAnalysisTab: () => void;
+  handleImageCreator: () => void;
+  handleIngredientRecognition: () => void;
 };
 
 const FrontendContext = createContext<FrontendContextType | undefined>(
@@ -28,15 +37,24 @@ export const useFrontendContext = () => {
 
 export const FrontendProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState(`ImageAnalysis`);
+  const [chatbotTab, setChatbotTab] = useState(false);
   const handleImageAnalysisTab = () => setActiveTab(`ImageAnalysis`);
   const handleImageCreator = () => setActiveTab(`ImageCreator`);
   const handleIngredientRecognition = () =>
     setActiveTab(`IngredientRecognition`);
+  const handleChatbotClose = () => {
+    () => setChatbotTab(false);
+  };
 
   return (
     <FrontendContext.Provider
       value={{
+        chatbotTab,
         activeTab,
+
+        setChatbotTab,
+        handleChatbotClose,
+
         handleImageAnalysisTab,
         handleImageCreator,
         handleIngredientRecognition,
