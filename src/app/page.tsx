@@ -5,7 +5,7 @@ import { Header } from "./_features/header";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
+
 import { ImageAnalysis } from "./_features/(1)imageAnalysis";
 import { ImageCreator } from "./_features/(3)imageCreator";
 import { IngredientRecognition } from "./_features/(2)ingredientRecognition";
@@ -24,15 +24,15 @@ export default function Home() {
     <div>
       <div className=" flex flex-col gap-6 items-center ">
         <Header />
-        <div className="w-145 flex flex-col gap-6">
+        <div className="w-145 flex flex-col gap-6 items-center">
           {" "}
-          <ButtonGroup className="">
+          <div className="bg-[#f4f4f5] p-1 rounded-lg w-fit gap-1">
             <Button
               variant="ghost"
-              className={`${
+              className={`rounded-lg ${
                 activeTab === "ImageAnalysis"
-                  ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
-                  : "text-gray-400 font-normal hover:bg-transparent"
+                  ? "bg-white shadow-sm font-semibold text-black hover:bg-white"
+                  : "text-gray-400 font-normal hover:bg-transparent cursor-pointer"
               }`}
               onClick={handleImageAnalysisTab}
             >
@@ -40,10 +40,10 @@ export default function Home() {
             </Button>
             <Button
               variant="ghost"
-              className={`${
+              className={`rounded-lg ${
                 activeTab === "IngredientRecognition"
-                  ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
-                  : "text-gray-400 font-normal hover:bg-transparent"
+                  ? "bg-white shadow-sm font-semibold text-black hover:bg-white"
+                  : "text-gray-400 font-normal hover:bg-transparent cursor-pointer"
               }`}
               onClick={handleIngredientRecognition}
             >
@@ -51,16 +51,16 @@ export default function Home() {
             </Button>
             <Button
               variant="ghost"
-              className={`${
+              className={`rounded-lg ${
                 activeTab === "ImageCreator"
-                  ? "bg-white rounded-md shadow-sm font-semibold text-black hover:bg-white"
-                  : "text-gray-400 font-normal hover:bg-transparent"
+                  ? "bg-white shadow-sm font-semibold text-black hover:bg-white"
+                  : "text-gray-400 font-normal hover:bg-transparent cursor-pointer"
               }`}
               onClick={handleImageCreator}
             >
               Image creator
             </Button>
-          </ButtonGroup>
+          </div>
           {activeTab === "ImageAnalysis" && <ImageAnalysis />}
           {activeTab === "ImageCreator" && <ImageCreator />}
           {activeTab === "IngredientRecognition" && <IngredientRecognition />}

@@ -7,6 +7,7 @@ import { useAIContext } from "../_provider/AI-relatedProvider";
 import StarIcon from "@/components/ui/star-icon";
 import ReloadIcon from "@/components/ui/reload-icon";
 import FileIcon from "@/components/ui/file-icon";
+
 export const IngredientRecognition = () => {
   const {
     ingredientTextarea,

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { AIProvider } from "./_provider/AI-relatedProvider";
 import { FrontendProvider } from "./_provider/frontendRelatedProvider";
+import { AnotherAIProvider } from "./_provider/AI-relatedProvider2";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
         <AIProvider>
-          <FrontendProvider>{children}</FrontendProvider>
+          <AnotherAIProvider>
+            <FrontendProvider>{children}</FrontendProvider>
+          </AnotherAIProvider>
         </AIProvider>
       </body>
     </html>

@@ -51,10 +51,8 @@ export const FrontendProvider = ({ children }: { children: ReactNode }) => {
       value={{
         chatbotTab,
         activeTab,
-
         setChatbotTab,
         handleChatbotClose,
-
         handleImageAnalysisTab,
         handleImageCreator,
         handleIngredientRecognition,

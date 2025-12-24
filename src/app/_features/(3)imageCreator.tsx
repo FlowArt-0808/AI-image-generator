@@ -2,7 +2,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useAIContext } from "../_provider/AI-relatedProvider";
+import { useAnotherAIContext } from "../_provider/AI-relatedProvider2";
 import { Textarea } from "@/components/ui/textarea";
 import StarIcon from "@/components/ui/star-icon";
 import ReloadIcon from "@/components/ui/reload-icon";
@@ -10,7 +10,6 @@ import ImageIcon from "@/components/ui/image-icon";
 export const ImageCreator = () => {
   const {
     generatedImage,
-    generatedImageAnalysisTextarea,
     isImageCreated,
     imageCreatorLoading,
     imageCreatorTextarea,
@@ -18,7 +17,7 @@ export const ImageCreator = () => {
     handleTextToImage,
     setImageCreatorTextarea,
     setIsImageCreated,
-  } = useAIContext();
+  } = useAnotherAIContext();
 
   return (
     <div aria-label="Every content" className="flex flex-col gap-6">
@@ -87,11 +86,16 @@ export const ImageCreator = () => {
           {imageCreatorLoading ? (
             <Textarea value="Loading image..." disabled />
           ) : isImageCreated ? (
-            <Textarea value={generatedImageAnalysisTextarea} readOnly />
-          ) : (
-            <div>
-              <img src={generatedImage || ""} alt="" />
+            <div className="p-4 flex flex-col gap-1 border border-[#E4E4E7] rounded-lg">
+              <h1>Test</h1>
+              <img
+                src={generatedImage || ""}
+                alt=""
+                className="bg-center bg-cover rounded-lg w-90 h-90"
+              />
             </div>
+          ) : (
+            ``
           )}
         </div>
       </div>

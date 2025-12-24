@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useFrontendContext } from "../_provider/frontendRelatedProvider";
+import { useAnotherAIContext } from "../_provider/AI-relatedProvider2";
 import MessageIcon from "../../components/ui/message-icon";
 import SendIcon from "@/components/ui/send-icon";
 import { Label } from "@radix-ui/react-label";
@@ -8,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const Chatbot = () => {
   const { setChatbotTab, chatbotTab } = useFrontendContext();
+  const { chatbotTextarea, handleChatbotTextarea } = useAnotherAIContext();
+
   return (
     <div
       className={`fixed  ${chatbotTab ? "bottom-2" : "bottom-7"}  ${
@@ -37,7 +40,10 @@ export const Chatbot = () => {
           </div>
           <div className="py-2 px-6 flex gap-2 justify-between items-center">
             {" "}
-            <Textarea />
+            <Textarea
+              value={chatbotTextarea}
+              onChange={handleChatbotTextarea}
+            />
             <Button
               variant="default"
               size="icon"

@@ -69,12 +69,12 @@ export const ImageAnalysis = () => {
           aria-label="Image drop zone and generate button"
           className="flex flex-col gap-2"
         >
-          <div className="relative">
+          <div className="relative cursor-pointer">
             <Input
               id="picture"
               type="file"
               accept="image/*"
-              className=""
+              className="cursor-pointer"
               onChange={handleImageChange}
             />
             {!imagePreview ? (
